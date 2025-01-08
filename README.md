@@ -1,5 +1,5 @@
 ## BACKGROUND
-company XYZ existing data infrastructure is fragmented, with data stored across three spreadsheets. was tasked to streamline this data and create actionable dashboards to drive decision-making.
+Company XYZ existing data infrastructure is fragmented, with data stored across three spreadsheets. was tasked to streamline this data and create actionable dashboards to drive decision-making.
 
 ## TASK
 1. **Data Warehouse Development:**
