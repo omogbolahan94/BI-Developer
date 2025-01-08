@@ -1,0 +1,2757 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/30/2024 5:23:48 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-NA5KNSI"
+  DTS:CreatorName="DESKTOP-NA5KNSI\DELL"
+  DTS:DTSID="{5A0C94FE-69CE-4430-887F-40CB54233C01}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="152"
+  DTS:VersionGUID="{BABB3C04-3F66-4159-BA4D-F7A037592F73}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{27E4BE92-C781-443B-8D5D-047F85A3643E}"
+      DTS:ObjectName="LocalHost">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Package-{27E4BE92-C781-443B-8D5D-047F85A3643E}LocalHost;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.StaggingDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E8DC97A7-3AC9-41BB-8256-B2348A1B7725}"
+      DTS:ObjectName="LocalHost.StaggingDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=StaggingDB;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Package-{E8DC97A7-3AC9-41BB-8256-B2348A1B7725}LocalHost.StaggingDB;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.StagingDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E661E392-2F34-4172-AEB2-D5D0949C7DB4}"
+      DTS:ObjectName="LocalHost.StagingDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=StagingDB;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-Package-{E661E392-2F34-4172-AEB2-D5D0949C7DB4}LocalHost.StagingDB;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Customer Store Procedure DWH"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EAD4D7BE-BAAA-4095-BC1D-661B6B91297A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Customer Store Procedure DWH"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{877F49A3-5F7C-4C0F-8DC4-CE5FD631B289}"
+          SQLTask:SqlStatementSource="EXEC MergeCustomerData;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Customer_Stg"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{FBF7DF5F-7A1F-4480-8E21-E6CEACAFF6A7}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Customer_Stg"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Customer_Stg\Customer Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Customer Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Customer_Stg\Customer Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="{B03F1EAB-AC1F-4E40-BE32-5D9D1C8F74CA}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Customer Source Data]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Customer_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Customer_ID]"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Customer_ID]"
+                      name="Customer_ID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[DOB]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].ExternalColumns[DOB]"
+                      length="50"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[DOB]"
+                      name="DOB"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Gender]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Gender]"
+                      length="50"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Gender]"
+                      name="Gender"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[City_Code]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].ExternalColumns[City_Code]"
+                      length="50"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[City_Code]"
+                      name="City_Code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Customer_ID]"
+                      dataType="i4"
+                      name="Customer_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].ExternalColumns[DOB]"
+                      codePage="65001"
+                      dataType="str"
+                      length="50"
+                      name="DOB" />
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Gender]"
+                      codePage="65001"
+                      dataType="str"
+                      length="50"
+                      name="Gender" />
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].ExternalColumns[City_Code]"
+                      codePage="65001"
+                      dataType="str"
+                      length="50"
+                      name="City_Code" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="65001"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Customer_Stg\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Customer_Stg\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Customer_Stg\Derived Column.Inputs[Derived Column Input].Columns[DOB]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="DOB"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[DOB]" />
+                    <inputColumn
+                      refId="Package\Customer_Stg\Derived Column.Inputs[Derived Column Input].Columns[Gender]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Gender"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Gender]" />
+                    <inputColumn
+                      refId="Package\Customer_Stg\Derived Column.Inputs[Derived Column Input].Columns[City_Code]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="City_Code"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[City_Code]" />
+                    <inputColumn
+                      refId="Package\Customer_Stg\Derived Column.Inputs[Derived Column Input].Columns[Customer_ID]"
+                      cachedDataType="i4"
+                      cachedName="Customer_ID"
+                      lineageId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Customer_ID]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Customer_Stg\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[DOB_Clean]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[DOB_Clean]"
+                      name="DOB_Clean"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBDATE)([SUBSTRING](#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[DOB]},7,4) + "-" + [SUBSTRING](#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[DOB]},4,2) + "-" + [SUBSTRING](#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[DOB]},1,2))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)(SUBSTRING(DOB,7,4) + "-" + SUBSTRING(DOB,4,2) + "-" + SUBSTRING(DOB,1,2))</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Gender_Clean]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Gender_Clean]"
+                      name="Gender_Clean"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)([ISNULL](#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Gender]}) ? "Unknown" : (#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Gender]} == "M" ? "Male" : (#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Gender]} == "F" ? "Female" : "Unknown")))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)(ISNULL(Gender) ? "Unknown" : (Gender == "M" ? "Male" : (Gender == "F" ? "Female" : "Unknown")))</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[City_Code_Clean]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[City_Code_Clean]"
+                      name="City_Code_Clean"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)([ISNULL](#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[City_Code]}) || [TRIM](#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[City_Code]}) == "" ? "Unknown" : #{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[City_Code]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)(ISNULL(City_Code) || TRIM(City_Code) == "" ? "Unknown" : City_Code)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Customer_ID_Cast]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Customer_ID_Cast]"
+                      name="Customer_ID_Cast"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[Customer_ID]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)Customer_ID</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Age]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Age]"
+                      name="Age"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[DATEDIFF]("Year",(DT_DATE)#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[DOB]},[GETDATE]()) - ([DATEPART]("DayOfYear",[GETDATE]()) &lt; [DATEPART]("DayOfYear",(DT_DATE)#{Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output].Columns[DOB]}) ? 1 : 0)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">DATEDIFF("Year",(DT_DATE)DOB,GETDATE()) - (DATEPART("DayOfYear",GETDATE()) &lt; DATEPART("DayOfYear",(DT_DATE)DOB) ? 1 : 0)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Customer_Stg\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Customer_Stg\SQL Server Stagging Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server Stagging Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Customer]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT Customer_ID, Date_of_Birth, Age, Gender, City_Code
+
+FROM StagingDB.dbo.Customer
+
+WHERE Customer_ID NOT IN (SELECT Customer_ID FROM DWHDB.dbo.DimCustomer)</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Customer_Stg\SQL Server Stagging Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.StagingDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.StagingDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[DOB_Clean]"
+                      cachedDataType="dbDate"
+                      cachedName="DOB_Clean"
+                      externalMetadataColumnId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Date_of_Birth]"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[DOB_Clean]" />
+                    <inputColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[Gender_Clean]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Gender_Clean"
+                      externalMetadataColumnId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Gender_Clean]" />
+                    <inputColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[City_Code_Clean]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="City_Code_Clean"
+                      externalMetadataColumnId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[City_Code]"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[City_Code_Clean]" />
+                    <inputColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[Customer_ID_Cast]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Customer_ID_Cast"
+                      externalMetadataColumnId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_ID]"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Customer_ID_Cast]" />
+                    <inputColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[Age]"
+                      cachedDataType="i4"
+                      cachedName="Age"
+                      externalMetadataColumnId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                      lineageId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output].Columns[Age]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_ID]"
+                      dataType="i4"
+                      name="Customer_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Date_of_Birth]"
+                      dataType="wstr"
+                      length="10"
+                      name="Date_of_Birth" />
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Gender]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Gender" />
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[City_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="City_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                      dataType="i4"
+                      name="Age" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Customer_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Customer_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Customer_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Customer_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Customer_Stg.Paths[Derived Column Output]"
+              endId="Package\Customer_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Customer_Stg\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Customer_Stg.Paths[Flat File Source Output]"
+              endId="Package\Customer_Stg\Derived Column.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\Customer_Stg\Customer Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Product Store Procedure DWH"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1a33d387-6400-4957-83f7-5227238926ab}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Product Store Procedure DWH"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{877F49A3-5F7C-4C0F-8DC4-CE5FD631B289}"
+          SQLTask:SqlStatementSource="EXEC MergeProductData;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Product_Info_Stg"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{43de0d45-6e72-4431-8eab-2643477ef074}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Product_Info_Stg"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Product_Info_Stg\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Product_Info_Stg\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Inputs[Derived Column Input].Columns[prod_cat_code]"
+                      cachedDataType="i1"
+                      cachedName="prod_cat_code"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]" />
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Inputs[Derived Column Input].Columns[prod_cat]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="prod_cat"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat]" />
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Inputs[Derived Column Input].Columns[prod_sub_cat_code]"
+                      cachedDataType="i1"
+                      cachedName="prod_sub_cat_code"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_sub_cat_code]" />
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Inputs[Derived Column Input].Columns[prod_subcat]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="prod_subcat"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Product_Info_Stg\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[composite_key]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[composite_key]"
+                      name="composite_key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)((DT_STR,50,1252)#{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]} + (DT_STR,50,1252)#{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_sub_cat_code]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)((DT_STR,50,1252)prod_cat_code + (DT_STR,50,1252)prod_sub_cat_code)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_clean]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_clean]"
+                      name="prod_cat_clean"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)(#{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat]} == "Clothng" ? "Clothing" : #{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat]} == "Bouks" ? "Books" : #{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat]} == "Hame and kitchen" ? "Home and kitchen" : #{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)(prod_cat == "Clothng" ? "Clothing" : prod_cat == "Bouks" ? "Books" : prod_cat == "Hame and kitchen" ? "Home and kitchen" : prod_cat)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_subcat_clean]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_subcat_clean]"
+                      name="prod_subcat_clean"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)(#{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat]} == "Personal Appliaances" ? "Personal Appliances" : #{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat]} == "Childran" ? "Children" : #{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat]} == "Mens" ? "Men" : #{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)(prod_subcat == "Personal Appliaances" ? "Personal Appliances" : prod_subcat == "Childran" ? "Children" : prod_subcat == "Mens" ? "Men" : prod_subcat)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_code_cast]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_code_cast]"
+                      name="prod_cat_code_cast"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)#{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)prod_cat_code</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_sub_cat_code_cast]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_sub_cat_code_cast]"
+                      name="prod_sub_cat_code_cast"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)#{Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_sub_cat_code]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)prod_sub_cat_code</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Product_Info_Stg\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Product_Info_Stg\Product Info Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Product Info Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Product_Info_Stg\Product Info Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="{A2AE1291-B2B5-49CC-878E-6F8BE6DE7AF3}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Product Category Info Source Data]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]"
+                      dataType="i1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_cat_code]"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]"
+                      name="prod_cat_code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_cat]"
+                      length="50"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat]"
+                      name="prod_cat"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_sub_cat_code]"
+                      dataType="i1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_sub_cat_code]"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_sub_cat_code]"
+                      name="prod_sub_cat_code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_subcat]"
+                      length="50"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat]"
+                      name="prod_subcat"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_cat_code]"
+                      dataType="i1"
+                      name="prod_cat_code" />
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_cat]"
+                      codePage="65001"
+                      dataType="str"
+                      length="50"
+                      name="prod_cat" />
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_sub_cat_code]"
+                      dataType="i1"
+                      name="prod_sub_cat_code" />
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_subcat]"
+                      codePage="65001"
+                      dataType="str"
+                      length="50"
+                      name="prod_subcat" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="65001"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Product_Info_Stg\SQL Server Stagging Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server Stagging Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ProductInfo]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT Category_Subcategory_Code, Category_Code, Category, Sub_Category_Code, Sub_Category 
+FROM StagingDB.dbo.ProductInfo
+WHERE Category_Subcategory_Code NOT IN (SELECT Category_Subcategory_Code FROM DWHDB.dbo.DimProductInfo);</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.StagingDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.StagingDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[composite_key]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="composite_key"
+                      externalMetadataColumnId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category_Subcategory_Code]"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[composite_key]" />
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[prod_cat_code_cast]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="prod_cat_code_cast"
+                      externalMetadataColumnId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category_Code]"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_code_cast]" />
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[prod_cat_clean]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="prod_cat_clean"
+                      externalMetadataColumnId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category]"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_clean]" />
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[prod_sub_cat_code_cast]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="prod_sub_cat_code_cast"
+                      externalMetadataColumnId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Sub_Category_Code]"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_sub_cat_code_cast]" />
+                    <inputColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].Columns[prod_subcat_clean]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="prod_subcat_clean"
+                      externalMetadataColumnId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Sub_Category]"
+                      lineageId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_subcat_clean]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category_Subcategory_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Category_Subcategory_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Category_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Category" />
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Sub_Category_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Sub_Category_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input].ExternalColumns[Sub_Category]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Sub_Category" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Product_Info_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Product_Info_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Product_Info_Stg\SQL Server Stagging Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Product_Info_Stg.Paths[Derived Column Output]"
+              endId="Package\Product_Info_Stg\SQL Server Stagging Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Product_Info_Stg\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Product_Info_Stg.Paths[Flat File Source Output]"
+              endId="Package\Product_Info_Stg\Derived Column.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\Product_Info_Stg\Product Info Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transaction DWH"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{91254ee3-c2bb-4ed7-9dff-8740d770f572}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transaction DWH"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{877F49A3-5F7C-4C0F-8DC4-CE5FD631B289}"
+          SQLTask:SqlStatementSource="EXEC MergeTransactionData;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transaction_Stg"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{6ee6a7c4-6da5-48d1-b125-a68199dccb2d}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transaction_Stg"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Transaction_Stg\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input].Columns[transaction_id]"
+                      cachedDataType="i8"
+                      cachedName="transaction_id"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[transaction_id]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input].Columns[tran_date]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="tran_date"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[tran_date]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input].Columns[prod_subcat_code]"
+                      cachedDataType="i1"
+                      cachedName="prod_subcat_code"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat_code]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input].Columns[prod_cat_code]"
+                      cachedDataType="i1"
+                      cachedName="prod_cat_code"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input].Columns[Store_type]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Store_type"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Store_type]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input].Columns[cust_id]"
+                      cachedDataType="i4"
+                      cachedName="cust_id"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[cust_id]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[tran_date_clean]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[tran_date_clean]"
+                      name="tran_date_clean"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBDATE)[REPLACE](#{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[tran_date]},"/","-")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)REPLACE(tran_date,"/","-")</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[store_type_clean]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[store_type_clean]"
+                      name="store_type_clean"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)(#{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Store_type]} == "MBR" ? "Medical Beauty Research (MBR)" : #{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Store_type]} == "TeleShop" ? "Teleshop" : #{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Store_type]} == "e-Shop" ? "E-shop" : #{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Store_type]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)(Store_type == "MBR" ? "Medical Beauty Research (MBR)" : Store_type == "TeleShop" ? "Teleshop" : Store_type == "e-Shop" ? "E-shop" : Store_type)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_subcat_code_cast]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_subcat_code_cast]"
+                      name="prod_subcat_code_cast"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)#{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat_code]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)prod_subcat_code</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[transaction_id_cast]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[transaction_id_cast]"
+                      name="transaction_id_cast"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)#{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[transaction_id]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)transaction_id</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_code_cast]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_code_cast]"
+                      name="prod_cat_code_cast"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)#{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)prod_cat_code</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[composite_key]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[composite_key]"
+                      name="composite_key"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)((DT_STR,10,1252)#{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]} + (DT_STR,10,1252)#{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat_code]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)((DT_STR,10,1252)prod_cat_code + (DT_STR,10,1252)prod_subcat_code)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[cust_id_cast]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[cust_id_cast]"
+                      name="cust_id_cast"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,50,1252)#{Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[cust_id]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,50,1252)cust_id</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transaction_Stg\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Transactions]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transaction_Stg\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.StagingDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.StagingDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Tax]"
+                      cachedDataType="r4"
+                      cachedName="Tax"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Tax]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Tax]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Rate]"
+                      cachedDataType="i2"
+                      cachedName="Rate"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Rate]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Rate]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[transaction_id_cast]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="transaction_id_cast"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Transaction_ID]"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[transaction_id_cast]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[cust_id_cast]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="cust_id_cast"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_ID]"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[cust_id_cast]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[tran_date_clean]"
+                      cachedDataType="dbDate"
+                      cachedName="tran_date_clean"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Transaction_Date]"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[tran_date_clean]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[prod_cat_code_cast]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="prod_cat_code_cast"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Prod_Category_Code]"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_cat_code_cast]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[prod_subcat_code_cast]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="prod_subcat_code_cast"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Prod_Sub_Category_Code]"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[prod_subcat_code_cast]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[composite_key]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="composite_key"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category_Subcategory_Code]"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[composite_key]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Qty]"
+                      cachedDataType="i1"
+                      cachedName="Qty"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Qty]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[total_amt]"
+                      cachedDataType="r4"
+                      cachedName="total_amt"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Total_Amount]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[total_amt]" />
+                    <inputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[store_type_clean]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="store_type_clean"
+                      externalMetadataColumnId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Store_Type]"
+                      lineageId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output].Columns[store_type_clean]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Transaction_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Transaction_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Customer_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Customer_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Transaction_Date]"
+                      dataType="wstr"
+                      length="10"
+                      name="Transaction_Date" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Prod_Sub_Category_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Prod_Sub_Category_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Prod_Category_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Prod_Category_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Category_Subcategory_Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Category_Subcategory_Code" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      dataType="i4"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Rate]"
+                      dataType="i4"
+                      name="Rate" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Tax]"
+                      dataType="numeric"
+                      name="Tax"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Total_Amount]"
+                      dataType="numeric"
+                      name="Total_Amount"
+                      precision="10"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Store_Type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Store_Type" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transaction_Stg\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transaction_Stg\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transaction_Stg\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transaction_Stg\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transaction_Stg\Transaction Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Transaction Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transaction_Stg\Transaction Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="{49BE7F3D-4509-4D3A-A558-C30BDDC64456}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Transaction Source Data]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[transaction_id]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[transaction_id]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[transaction_id]"
+                      name="transaction_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[tran_date]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[tran_date]"
+                      length="10"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[tran_date]"
+                      name="tran_date"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[total_amt]"
+                      dataType="r4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[total_amt]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[total_amt]"
+                      name="total_amt"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Tax]"
+                      dataType="r4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Tax]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Tax]"
+                      name="Tax"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Store_type]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Store_type]"
+                      length="50"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Store_type]"
+                      name="Store_type"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Rate]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Rate]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Rate]"
+                      name="Rate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Qty]"
+                      dataType="i1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Qty]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[Qty]"
+                      name="Qty"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat_code]"
+                      dataType="i1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_subcat_code]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_subcat_code]"
+                      name="prod_subcat_code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]"
+                      dataType="i1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_cat_code]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[prod_cat_code]"
+                      name="prod_cat_code"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[cust_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[cust_id]"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].Columns[cust_id]"
+                      name="cust_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[transaction_id]"
+                      dataType="i8"
+                      name="transaction_id" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[cust_id]"
+                      dataType="i4"
+                      name="cust_id" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[tran_date]"
+                      codePage="65001"
+                      dataType="str"
+                      length="10"
+                      name="tran_date" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_subcat_code]"
+                      dataType="i1"
+                      name="prod_subcat_code" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[prod_cat_code]"
+                      dataType="i1"
+                      name="prod_cat_code" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Qty]"
+                      dataType="i1"
+                      name="Qty" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Rate]"
+                      dataType="i2"
+                      name="Rate" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Tax]"
+                      dataType="r4"
+                      name="Tax" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[total_amt]"
+                      dataType="r4"
+                      name="total_amt" />
+                    <externalMetadataColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Store_type]"
+                      codePage="65001"
+                      dataType="str"
+                      length="50"
+                      name="Store_type" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="65001"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Transaction_Stg.Paths[Derived Column Output]"
+              endId="Package\Transaction_Stg\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Transaction_Stg\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Transaction_Stg.Paths[Flat File Source Output]"
+              endId="Package\Transaction_Stg\Derived Column.Inputs[Derived Column Input]"
+              name="Flat File Source Output"
+              startId="Package\Transaction_Stg\Transaction Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate_Customer_Stg"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5829be0d-2ac6-4b02-969d-c5b16ba5e86b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate_Customer_Stg"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E8DC97A7-3AC9-41BB-8256-B2348A1B7725}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE Customer;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate_Product_Info_Stg"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{13bdc45e-fd54-46f3-9f16-2f2c5e54dba8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate_Product_Info_Stg"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E8DC97A7-3AC9-41BB-8256-B2348A1B7725}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE ProductInfo;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate_Transaction_Stg"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{a7eeec46-3681-48f5-8d1a-de09c1c4f93b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate_Transaction_Stg"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E8DC97A7-3AC9-41BB-8256-B2348A1B7725}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE Transactions;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{66A0B485-3F87-4E6B-9C7C-0AAE28405C3D}"
+      DTS:From="Package\Truncate_Product_Info_Stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Product_Info_Stg" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{C58BE427-53A6-498A-B042-4A0F2FED5DDE}"
+      DTS:From="Package\Product_Info_Stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Truncate_Transaction_Stg" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{5A759C27-7CAA-448D-9B1C-E2BDBE100769}"
+      DTS:From="Package\Truncate_Customer_Stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Customer_Stg" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{5B2E1A28-5A9A-4927-A0DB-F3C8FCA1AD02}"
+      DTS:From="Package\Customer_Stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Truncate_Product_Info_Stg" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{035613CE-9B7C-4FBA-8BA4-686A42AB2BE0}"
+      DTS:From="Package\Truncate_Transaction_Stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Transaction_Stg" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{62E510A4-6D96-48C9-8AAF-86683A813826}"
+      DTS:From="Package\Transaction_Stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Customer Store Procedure DWH" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{FE6535D5-DCED-48C6-8AAD-84779B34BDFD}"
+      DTS:From="Package\Customer Store Procedure DWH"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\Product Store Procedure DWH" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{E359D3CC-C52F-44D3-9D94-A04CF697C674}"
+      DTS:From="Package\Product Store Procedure DWH"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 9"
+      DTS:To="Package\Transaction DWH" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Customer_Stg"
+          TopLeft="213,28" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Transaction_Stg"
+          TopLeft="232,225" />
+        <NodeLayout
+          Size="213,42"
+          Id="Package\Truncate_Product_Info_Stg"
+          TopLeft="70,92" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Product_Info_Stg"
+          TopLeft="2,156" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="70,113">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="14,43"
+              Start="0,0"
+              End="14,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="10,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="10,0"
+                    Point2="14,0"
+                    Point3="14,4" />
+                  <mssgle:LineSegment
+                    End="14,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="199,42"
+          Id="Package\Truncate_Customer_Stg"
+          TopLeft="389,23" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="389,46.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-27,0"
+              Start="0,0"
+              End="-19.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-19.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="213,49">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-36.5,43"
+              Start="0,0"
+              End="-36.5,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-32.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-32.5,0"
+                    Point2="-36.5,0"
+                    Point3="-36.5,4" />
+                  <mssgle:LineSegment
+                    End="-36.5,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Truncate_Transaction_Stg"
+          TopLeft="212,158" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="166,178">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="46,0"
+              Start="0,0"
+              End="38.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="38.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="314,200">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="239,42"
+          Id="Package\Customer Store Procedure DWH"
+          TopLeft="433,223" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Product Store Procedure DWH"
+          TopLeft="439,301" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="391,245">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="42,0"
+              Start="0,0"
+              End="34.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="34.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="553,265">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Transaction DWH"
+          TopLeft="480,386" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="553.5,343">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9.5,43"
+              Start="0,0"
+              End="9.5,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.5"
+                    Point2="0,21.5"
+                    Point3="4,21.5" />
+                  <mssgle:LineSegment
+                    End="5.5,21.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.5,21.5"
+                    Point2="9.5,21.5"
+                    Point3="9.5,25.5" />
+                  <mssgle:LineSegment
+                    End="9.5,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Customer_Stg">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Customer_Stg\Customer Flat File Source"
+          TopLeft="422,24" />
+        <NodeLayout
+          Size="241,42"
+          Id="Package\Customer_Stg\SQL Server Stagging Destination"
+          TopLeft="478,161" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Customer_Stg\Derived Column"
+          TopLeft="470,95" />
+        <EdgeLayout
+          Id="Package\Customer_Stg.Paths[Flat File Source Output]"
+          TopLeft="525.5,66">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="23.5,29"
+              Start="0,0"
+              End="23.5,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.5"
+                    Point2="0,14.5"
+                    Point3="4,14.5" />
+                  <mssgle:LineSegment
+                    End="19.5,14.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="19.5,14.5"
+                    Point2="23.5,14.5"
+                    Point3="23.5,18.5" />
+                  <mssgle:LineSegment
+                    End="23.5,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Customer_Stg.Paths[Derived Column Output]"
+          TopLeft="549,137">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="49.5,24"
+              Start="0,0"
+              End="49.5,16.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8"
+                    Point2="0,12"
+                    Point3="4,12" />
+                  <mssgle:LineSegment
+                    End="45.5,12" />
+                  <mssgle:CubicBezierSegment
+                    Point1="45.5,12"
+                    Point2="49.5,12"
+                    Point3="49.5,16" />
+                  <mssgle:LineSegment
+                    End="49.5,16.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Customer_Stg\SQL Server Stagging Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Transaction_Stg">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Transaction_Stg\Derived Column"
+          TopLeft="480,114" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Transaction_Stg\Transaction Flat File Source"
+          TopLeft="424,36" />
+        <EdgeLayout
+          Id="Package\Transaction_Stg.Paths[Flat File Source Output]"
+          TopLeft="532,78">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="27,36"
+              Start="0,0"
+              End="27,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14"
+                    Point2="0,18"
+                    Point3="4,18" />
+                  <mssgle:LineSegment
+                    End="23,18" />
+                  <mssgle:CubicBezierSegment
+                    Point1="23,18"
+                    Point2="27,18"
+                    Point3="27,22" />
+                  <mssgle:LineSegment
+                    End="27,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Transaction_Stg\OLE DB Destination"
+          TopLeft="563,206" />
+        <EdgeLayout
+          Id="Package\Transaction_Stg.Paths[Derived Column Output]"
+          TopLeft="559,156">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="92.5,50"
+              Start="0,0"
+              End="92.5,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21"
+                    Point2="0,25"
+                    Point3="4,25" />
+                  <mssgle:LineSegment
+                    End="88.5,25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="88.5,25"
+                    Point2="92.5,25"
+                    Point3="92.5,29" />
+                  <mssgle:LineSegment
+                    End="92.5,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\Product_Info_Stg">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="241,42"
+          Id="Package\Product_Info_Stg\SQL Server Stagging Destination"
+          TopLeft="519,174" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Product_Info_Stg\Derived Column"
+          TopLeft="433,99" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Product_Info_Stg\Product Info Flat File Source"
+          TopLeft="332,26" />
+        <EdgeLayout
+          Id="Package\Product_Info_Stg.Paths[Derived Column Output]"
+          TopLeft="512,141">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="127.5,33"
+              Start="0,0"
+              End="127.5,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.5"
+                    Point2="0,16.5"
+                    Point3="4,16.5" />
+                  <mssgle:LineSegment
+                    End="123.5,16.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="123.5,16.5"
+                    Point2="127.5,16.5"
+                    Point3="127.5,20.5" />
+                  <mssgle:LineSegment
+                    End="127.5,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Product_Info_Stg.Paths[Flat File Source Output]"
+          TopLeft="441,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="71,31"
+              Start="0,0"
+              End="71,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.5"
+                    Point2="0,15.5"
+                    Point3="4,15.5" />
+                  <mssgle:LineSegment
+                    End="67,15.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="67,15.5"
+                    Point2="71,15.5"
+                    Point3="71,19.5" />
+                  <mssgle:LineSegment
+                    End="71,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Product_Info_Stg\SQL Server Stagging Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transaction_Stg\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

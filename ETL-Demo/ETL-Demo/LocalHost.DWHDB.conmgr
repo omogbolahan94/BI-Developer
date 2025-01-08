@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="LocalHost.DWHDB"
+  DTS:DTSID="{877F49A3-5F7C-4C0F-8DC4-CE5FD631B289}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=.;Initial Catalog=DWHDB;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-ETL-Demo-{877F49A3-5F7C-4C0F-8DC4-CE5FD631B289}LocalHost.DWHDB;Auto Translate=False;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>
